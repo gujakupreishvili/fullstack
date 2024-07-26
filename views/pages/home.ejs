@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Users</title>
+  </head>
+  <body>
+    <h1>Users</h1>
+    <ul>
+      <% users.forEach(user => { %>
+      <li>
+        <%= user.product %> - <%= user.price %>$
+        <button onclick="deleteUser(<%= user.id %>)">Delete</button>
+      </li>
+      <% }) %>
+    </ul>
+    <a href="/add/users">Add User</a>
+
+    <script>
+      function deleteUser(userId) {
+        fetch(`/api/users/${userId}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => {
+            if (response.ok) {
+              window.location.reload();
+            } else {
+              alert("Failed to delete user");
+            }
+          })
+          .catch((error) => console.error("Error:", error));
+      }
+    </script>
+  </body>
+</html>
